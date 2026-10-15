@@ -30,8 +30,8 @@
   $mode = $mode ?? 'guest';
   $links = $mode === 'guru' ? [
     ['guru.dashboard','Dashboard','layout-dashboard'],['guru.subjects','Mapel','book-open'],['guru.classrooms','Kelas','users'],
-    ['guru.cases','Kasus','file-text'],['guru.grading','Penilaian','check-square'],['guru.recap','Rekap','table'],
-  ] : ($mode === 'siswa' ? [['siswa.dashboard','Dashboard','layout-dashboard']] : []);
+    ['guru.materials','Materi','book-marked'],['guru.cases','Kasus','file-text'],['guru.grading','Penilaian','check-square'],['guru.recap','Rekap','table'],
+  ] : ($mode === 'siswa' ? [['siswa.dashboard','Dashboard','layout-dashboard'],['siswa.materials','Materi','library']] : []);
 @endphp
 <header class="bg-blue-900 text-white shadow">
   <div class="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3">

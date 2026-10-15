@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Student\MaterialController as StudentMaterialController;
+use App\Http\Controllers\Teacher\MaterialController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Student\StudentController;
 use App\Http\Controllers\Teacher\CaseController;
@@ -46,6 +48,16 @@ Route::middleware('auth')->prefix('guru')->name('guru.')->group(function () {
     Route::post('kasus/{kasus}/publikasi', [CaseController::class, 'toggle'])->name('cases.toggle');
     Route::delete('kasus/{kasus}', [CaseController::class, 'destroy'])->name('cases.destroy');
 
+    // --- Rute Materi Pembelajaran (Guru) ---
+    Route::get('materi', [MaterialController::class, 'index'])->name('materials');
+    Route::get('materi/buat', [MaterialController::class, 'create'])->name('materials.create');
+    Route::post('materi', [MaterialController::class, 'store'])->name('materials.store');
+    Route::get('materi/{materi}', [MaterialController::class, 'show'])->name('materials.show');
+    Route::get('materi/{materi}/ubah', [MaterialController::class, 'edit'])->name('materials.edit');
+    Route::put('materi/{materi}', [MaterialController::class, 'update'])->name('materials.update');
+    Route::post('materi/{materi}/publikasi', [MaterialController::class, 'toggle'])->name('materials.toggle');
+    Route::delete('materi/{materi}', [MaterialController::class, 'destroy'])->name('materials.destroy');
+
     Route::get('penilaian', [GradeController::class, 'index'])->name('grading');
     Route::get('penilaian/{submission}', [GradeController::class, 'show'])->name('grading.show');
     Route::post('penilaian/{submission}', [GradeController::class, 'save'])->name('grading.save');
@@ -57,6 +69,12 @@ Route::middleware('auth')->prefix('guru')->name('guru.')->group(function () {
 
 Route::middleware('student')->prefix('siswa')->name('siswa.')->group(function () {
     Route::get('/', [StudentController::class, 'dashboard'])->name('dashboard');
+
+    // --- Rute Materi Pembelajaran (Siswa) ---
+    Route::get('materi', [StudentMaterialController::class, 'index'])->name('materials');
+    Route::get('materi/{materi}', [StudentMaterialController::class, 'show'])->name('materials.show');
+    Route::post('materi/{materi}/baca', [StudentMaterialController::class, 'markRead'])->name('materials.read');
+
     Route::get('kasus/{kasus}', [StudentController::class, 'show'])->name('case');
     Route::post('kasus/{kasus}/draft', [StudentController::class, 'saveDraft'])->name('case.draft');
     Route::post('kasus/{kasus}/kirim', [StudentController::class, 'submit'])->name('case.submit');
