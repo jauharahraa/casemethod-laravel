@@ -146,13 +146,15 @@ class GradeController extends Controller
 
         return response()->streamDownload(function () use ($rows, $safe, $labels) {
             $out = fopen('php://output', 'w');
-            fwrite($out, "\xEF\xBB\xBF"); // BOM agar Excel membaca UTF-8
-            fputcsv($out, ['Kelas', 'Mata Pelajaran', 'Kasus', 'Nama Siswa', 'Nomor Peserta', 'Status', 'Nilai Akhir', 'Nilai Dipublikasikan']);
+            fwrite($out, "\xEF\xBB\xBF"); // BOM agar Excel membaca UTF-8 dengan benar
+            
+            // Menggunakan pemisah titik koma (;) agar otomatis rapi di Excel Indonesia
+            fputcsv($out, ['Kelas', 'Mata Pelajaran', 'Kasus', 'Nama Siswa', 'Nomor Peserta', 'Status', 'Nilai Akhir', 'Nilai Dipublikasikan'], ';');
             foreach ($rows as $x) {
                 fputcsv($out, array_map($safe, [
                     $x['class'], $x['subject'], $x['case'], $x['student'], $x['number'],
                     $labels[$x['status']] ?? 'Belum mulai', $x['score'] ?? '', $x['published'] ? 'Ya' : 'Tidak',
-                ]));
+                ]), ';');
             }
             fclose($out);
         }, 'rekap-nilai-'.now()->format('Ymd-His').'.csv', ['Content-Type' => 'text/csv; charset=UTF-8']);

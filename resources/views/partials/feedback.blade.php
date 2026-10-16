@@ -3,13 +3,13 @@
   $labels = \App\Services\RubricService::ASPECTS;
   // Format lama (sebelum rubrik disederhanakan) tetap bisa ditampilkan.
   $legacy = [
-    'strengths' => ['Kelebihan jawaban','thumbs-up','text-emerald-700'],
-    'weaknesses' => ['Kekurangan jawaban','alert-triangle','text-amber-700'],
-    'unmet_criteria' => ['Kriteria rubrik yang belum terpenuhi','list-checks','text-red-700'],
-    'suggestions' => ['Saran perbaikan','lightbulb','text-blue-700'],
-    'guiding_questions' => ['Pertanyaan pemantik','help-circle','text-indigo-700'],
+    ['key' => 'strengths', 'title' => 'Kelebihan jawaban', 'icon' => 'thumbs-up', 'color' => 'text-emerald-700'],
+    ['key' => 'weaknesses', 'title' => 'Kekurangan jawaban', 'icon' => 'alert-triangle', 'color' => 'text-amber-700'],
+    ['key' => 'unmet_criteria', 'title' => 'Kriteria rubrik yang belum terpenuhi', 'icon' => 'list-checks', 'color' => 'text-red-700'],
+    ['key' => 'suggestions', 'title' => 'Saran perbaikan', 'icon' => 'lightbulb', 'color' => 'text-blue-700'],
+    ['key' => 'guiding_questions', 'title' => 'Pertanyaan pemantik', 'icon' => 'help-circle', 'color' => 'text-indigo-700'],
   ];
-  $badge = fn ($s) => $s >= 4 ? 'bg-emerald-100 text-emerald-700' : ($s == 3 ? 'bg-blue-100 text-blue-700' : ($s == 2 ? 'bg-amber-100 text-amber-700' : 'bg-red-100 text-red-700'));
+  $badge = fn ($score, $max) => ($score >= $max ? 'bg-emerald-100 text-emerald-700' : ($score >= ($max * 0.6) ? 'bg-blue-100 text-blue-700' : 'bg-amber-100 text-amber-700'));
 @endphp
 @if($feedback && $feedback->status === 'ok')
   <div class="space-y-3">
@@ -21,12 +21,16 @@
 
     @if(isset($c['aspects']))
       @foreach($labels as $key => $label)
-        @php $a = $c['aspects'][$key] ?? null; @endphp
+        @php 
+          $a = $c['aspects'][$key] ?? null; 
+          $max = $a['max_score'] ?? ($key === 'solution' ? 4 : 3);
+          $score = $a['score'] ?? 0;
+        @endphp
         @if($a)
           <div class="rounded-xl border border-slate-200 p-3">
             <div class="mb-1 flex items-center justify-between gap-2">
               <h5 class="text-sm font-bold text-blue-900">{{ $label }}</h5>
-              <span class="badge {{ $badge($a['score']) }}">Skor {{ $a['score'] }}/4</span>
+              <span class="badge {{ $badge($score, $max) }}">Skor {{ $score }}/{{ $max }}</span>
             </div>
             @if(!empty($a['reason']))<p class="text-sm text-slate-700"><b>Alasan:</b> {{ $a['reason'] }}</p>@endif
             @if(!empty($a['feedback']))<p class="mt-1 text-sm text-slate-700"><b>Feedback:</b> {{ $a['feedback'] }}</p>@endif
@@ -44,18 +48,22 @@
         <div class="rounded-xl border border-slate-200 p-3"><h5 class="mb-1 flex items-center gap-2 text-sm font-bold text-blue-900"><i data-lucide="message-square-text" class="h-4 w-4"></i>Kesimpulan</h5><p class="text-sm text-slate-700">{{ $c['conclusion'] }}</p></div>
       @endif
       @foreach(['suggestions','guiding_questions'] as $k)
-        @if(!empty($c[$k]))
+        @php 
+          $legacyInfo = collect($legacy)->firstWhere('key', $k);
+        @endphp
+        @if(!empty($c[$k]) && $legacyInfo)
           <div class="rounded-xl border border-slate-200 p-3">
-            <h5 class="mb-1 flex items-center gap-2 text-sm font-bold {{ $legacy[$k][2] }}"><i data-lucide="{{ $legacy[$k][1] }}" class="h-4 w-4"></i>{{ $legacy[$k][0] }}</h5>
+            <h5 class="mb-1 flex items-center gap-2 text-sm font-bold {{ $legacyInfo['color'] }}"><i data-lucide="{{ $legacyInfo['icon'] }}" class="h-4 w-4"></i>{{ $legacyInfo['title'] }}</h5>
             <ul class="list-disc space-y-1 pl-5 text-sm text-slate-700">@foreach($c[$k] as $item)<li>{{ $item }}</li>@endforeach</ul>
           </div>
         @endif
       @endforeach
     @else
-      @foreach($legacy as $key => [$title,$icon,$color])
+      @foreach($legacy as $itemInfo)
+        @php $key = $itemInfo['key']; @endphp
         @if(!empty($c[$key]))
           <div class="rounded-xl border border-slate-200 p-3">
-            <h5 class="mb-1 flex items-center gap-2 text-sm font-bold {{ $color }}"><i data-lucide="{{ $icon }}" class="h-4 w-4"></i>{{ $title }}</h5>
+            <h5 class="mb-1 flex items-center gap-2 text-sm font-bold {{ $itemInfo['color'] }}"><i data-lucide="{{ $itemInfo['icon'] }}" class="h-4 w-4"></i>{{ $itemInfo['title'] }}</h5>
             <ul class="list-disc space-y-1 pl-5 text-sm text-slate-700">@foreach($c[$key] as $item)<li>{{ $item }}</li>@endforeach</ul>
           </div>
         @endif

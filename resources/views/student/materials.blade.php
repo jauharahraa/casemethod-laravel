@@ -4,16 +4,17 @@
 @php
   $total = $materials->count(); $done = count($readIds); $pct = $total ? round($done / $total * 100) : 0;
 @endphp
-<section class="relative mb-6 overflow-hidden rounded-3xl bg-gradient-to-br from-blue-900 via-blue-700 to-sky-500 p-6 text-white shadow-lg sm:p-8">
-  <i data-lucide="library" class="absolute -right-6 -top-6 h-48 w-48 text-white/10"></i>
-  <i data-lucide="sparkles" class="absolute bottom-4 right-24 h-8 w-8 text-white/30"></i>
+<section class="relative mb-6 overflow-hidden rounded-[28px] bg-gradient-to-br from-[#e2ecf3] via-[#ece7ee] to-[#f8dedf] p-6 sm:p-8">
+  <div class="pointer-events-none absolute -bottom-28 -right-16 h-72 w-72 rounded-full bg-[#eec6c7]/60"></div>
+  <i data-lucide="library" class="absolute -right-4 -top-4 h-44 w-44 text-white/70"></i>
+  <i data-lucide="sparkles" class="absolute bottom-5 right-28 h-7 w-7 text-[#db88a4]"></i>
   <div class="relative max-w-xl">
-    <p class="text-sm font-semibold text-sky-200">Perpustakaan belajar</p>
-    <h1 class="mt-1 text-3xl font-extrabold">Materi Pembelajaran</h1>
-    <p class="mt-1 text-blue-100">{{ $classroom->name }} · {{ $classroom->subject->name }}</p>
-    <div class="mt-5">
-      <div class="mb-1 flex justify-between text-sm"><span>Progres membaca</span><span class="font-semibold">{{ $done }}/{{ $total }} materi</span></div>
-      <div class="h-3 overflow-hidden rounded-full bg-white/20"><div class="h-3 rounded-full bg-gradient-to-r from-emerald-300 to-white" style="width: {{ $pct }}%"></div></div>
+    <span class="inline-block rounded-full border border-[#a8c3d4] bg-white/60 px-3 py-1 text-[11px] font-semibold uppercase tracking-wider text-[#4d6a9c]">Perpustakaan belajar</span>
+    <h1 class="mt-3 text-3xl font-extrabold text-[#33406b]">Materi Pembelajaran</h1>
+    <p class="mt-1 text-[#5b5470]">{{ $classroom->name }} · {{ $classroom->subject->name }}</p>
+    <div class="mt-5 rounded-2xl bg-white/70 p-4 backdrop-blur">
+      <div class="mb-1.5 flex justify-between text-sm"><span class="font-semibold text-[#33406b]">Progres membaca</span><span class="text-[#5b5470]">{{ $done }}/{{ $total }} materi</span></div>
+      <div class="h-3 overflow-hidden rounded-full bg-[#e9e3ec]"><div class="h-3 rounded-full bg-gradient-to-r from-[#738fbd] via-[#cc8eb1] to-[#db88a4]" style="width: {{ $pct }}%"></div></div>
     </div>
   </div>
 </section>

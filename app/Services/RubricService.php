@@ -14,7 +14,12 @@ class RubricService
         'solution' => 'Solusi',
     ];
 
-    const MAX_SCORE = 4; // Tetap 4 secara internal agar perhitungan nilai akhir 0-100 tetap berjalan mulus di balik layar
+    // Batas skor maksimum per aspek sesuai ketentuan baru
+    const MAX_SCORES = [
+        'identification' => 3,
+        'analysis' => 3,
+        'solution' => 4,
+    ];
 
     public static function default(): array
     {
@@ -22,12 +27,12 @@ class RubricService
             'identification' => [
                 'label' => 'Identifikasi Masalah',
                 'weight' => 25,
-                'criteria' => [['name' => 'Menemukan masalah utama', 'description' => '', 'max' => 4, 'levels' => []]]
+                'criteria' => [['name' => 'Menemukan masalah utama', 'description' => '', 'max' => 3, 'levels' => []]]
             ],
             'analysis' => [
                 'label' => 'Analisis Masalah',
                 'weight' => 35,
-                'criteria' => [['name' => 'Menjelaskan penyebab masalah', 'description' => '', 'max' => 4, 'levels' => []]]
+                'criteria' => [['name' => 'Menjelaskan penyebab masalah', 'description' => '', 'max' => 3, 'levels' => []]]
             ],
             'solution' => [
                 'label' => 'Solusi',
@@ -46,11 +51,25 @@ class RubricService
     {
         $aspectScores = [];
         $final = 0.0;
+        
         foreach ($rubric['aspects'] as $k => $a) {
-            $s = max(0, min(self::MAX_SCORE, (float) ($scores[$k] ?? 0)));
-            $aspectScores[$k] = round(($s / self::MAX_SCORE) * 100, 2);
-            $final += ($s / self::MAX_SCORE) * $a['weight'];
+            // Ambil batas max dari kriteria rubrik atau dari MAX_SCORES
+            $max = (float) ($a['criteria'][0]['max'] ?? (self::MAX_SCORES[$k] ?? 4));
+            if ($max <= 0) $max = 4;
+
+            // Dapatkan nilai raw: tangani jika dikirim dalam bentuk array scores[k][0] atau scores[k]
+            $rawScore = $scores[$k] ?? 0;
+            if (is_array($rawScore)) {
+                $rawScore = reset($rawScore); // Ambil elemen pertama dari array kriteria
+            }
+
+            $s = max(0, min($max, (float) $rawScore));
+            
+            // Konversi skor aspek ke skala 0-100 secara proporsional
+            $aspectScores[$k] = round(($s / $max) * 100, 2);
+            $final += ($s / $max) * $a['weight'];
         }
+        
         return ['aspect_scores' => $aspectScores, 'final' => round($final, 2)];
     }
 
@@ -67,24 +86,28 @@ class RubricService
         $total = 0;
         foreach (self::ASPECTS as $k => $label) {
             $w = (float) $input[$k]['weight'];
-            if ($lockedWeights !== null && abs($w - (float) $lockedWeights[$k]) > 0.001) {
+            if ($lockedWeights !== null && isset($lockedWeights[$k]) && abs($w - (float) $lockedWeights[$k]) > 0.001) {
                 throw ValidationException::withMessages(['rubric' => 'Bobot tidak dapat diubah setelah kasus dipublikasikan.']);
             }
             $total += $w;
+            $max = self::MAX_SCORES[$k] ?? 4;
+            
             $out['aspects'][$k] = [
                 'label' => $label,
                 'weight' => $w,
                 'criteria' => [[
                     'name' => trim($input[$k]['criteria'][0]['name']),
                     'description' => '',
-                    'max' => self::MAX_SCORE,
+                    'max' => $max,
                     'levels' => [],
                 ]],
             ];
         }
+        
         if (abs($total - 100) > 0.001) {
             throw ValidationException::withMessages(['rubric' => 'Total bobot harus tepat 100%.']);
         }
+        
         return $out;
     }
 

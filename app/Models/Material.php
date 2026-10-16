@@ -9,13 +9,13 @@ use Illuminate\Support\Str;
 class Material extends Model
 {
     /** Tema warna sampul (kelas Tailwind lengkap agar terdeteksi). */
-    const THEMES = [
-        'blue' => 'from-blue-900 via-blue-700 to-sky-500',
-        'indigo' => 'from-indigo-900 via-indigo-700 to-violet-500',
-        'emerald' => 'from-emerald-800 via-emerald-600 to-teal-400',
-        'amber' => 'from-amber-600 via-orange-500 to-yellow-400',
-        'rose' => 'from-rose-700 via-rose-500 to-pink-400',
-        'violet' => 'from-fuchsia-800 via-purple-600 to-violet-400',
+        const THEMES = [
+        'blue' => 'from-[#5f7cae] via-[#738fbd] to-[#a8c3d4]',
+        'indigo' => 'from-[#6f6a9a] via-[#8f87b3] to-[#b9b2cf]',
+        'emerald' => 'from-[#5d86a3] via-[#7fa3bb] to-[#a8c3d4]',
+        'amber' => 'from-[#c77f8f] via-[#e0a0a8] to-[#eec6c7]',
+        'rose' => 'from-[#c4708f] via-[#db88a4] to-[#eeaabd]',
+        'violet' => 'from-[#a8648f] via-[#cc8eb1] to-[#e0b4cf]',
     ];
 
     const ICONS = ['book-open', 'lightbulb', 'flask-conical', 'calculator', 'globe', 'landmark', 'cpu', 'leaf', 'briefcase', 'scale', 'heart-pulse', 'palette'];

@@ -99,7 +99,6 @@ TXT;
     {
         $aspects = [];
         
-        // Batas maksimal skor per aspek sesuai permintaan (Identifikasi: 3, Analisis: 3, Solusi: 4)
         $maxScores = [
             'identification' => 3,
             'analysis' => 3,
@@ -111,16 +110,15 @@ TXT;
             $statusStr = $a['status'] ?? 'Perlu diperkuat';
             $max = $maxScores[$k] ?? 4;
 
-            // Konversi status ke angka proporsional berdasarkan max skor aspek
             $score = match ($statusStr) {
                 'Sudah sesuai' => $max,
                 'Perlu diperkuat' => max(1, (int) round($max * 0.6)),
-                default => 1, // Belum lengkap
+                default => 1,
             };
 
             $aspects[$k] = [
                 'score' => $score,
-                'max_score' => $max, // Menyimpan batas max agar mudah ditampilkan di UI (misal: 3/3 atau 4/4)
+                'max_score' => $max,
                 'status' => $statusStr,
                 'reason' => trim((string) ($a['reason'] ?? '')),
                 'feedback' => trim((string) ($a['feedback'] ?? '')),
