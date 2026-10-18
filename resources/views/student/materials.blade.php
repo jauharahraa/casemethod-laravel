@@ -4,17 +4,17 @@
 @php
   $total = $materials->count(); $done = count($readIds); $pct = $total ? round($done / $total * 100) : 0;
 @endphp
-<section class="relative mb-6 overflow-hidden rounded-[28px] bg-gradient-to-br from-[#e2ecf3] via-[#ece7ee] to-[#f8dedf] p-6 sm:p-8">
-  <div class="pointer-events-none absolute -bottom-28 -right-16 h-72 w-72 rounded-full bg-[#eec6c7]/60"></div>
+<section class="relative mb-6 overflow-hidden rounded-[28px] bg-gradient-to-br from-[#FFEBED] via-[#F6B6B7] to-[#A6C9B6] p-6 sm:p-8">
+  <div class="pointer-events-none absolute -bottom-28 -right-16 h-72 w-72 rounded-full bg-[#F6B6B7]/60"></div>
   <i data-lucide="library" class="absolute -right-4 -top-4 h-44 w-44 text-white/70"></i>
-  <i data-lucide="sparkles" class="absolute bottom-5 right-28 h-7 w-7 text-[#db88a4]"></i>
+  <i data-lucide="sparkles" class="absolute bottom-5 right-28 h-7 w-7 text-[#F6B6B7]"></i>
   <div class="relative max-w-xl">
-    <span class="inline-block rounded-full border border-[#a8c3d4] bg-white/60 px-3 py-1 text-[11px] font-semibold uppercase tracking-wider text-[#4d6a9c]">Perpustakaan belajar</span>
-    <h1 class="mt-3 text-3xl font-extrabold text-[#33406b]">Materi Pembelajaran</h1>
-    <p class="mt-1 text-[#5b5470]">{{ $classroom->name }} · {{ $classroom->subject->name }}</p>
+    <span class="inline-block rounded-full border border-[#A6C9B6] bg-white/60 px-3 py-1 text-[11px] font-semibold uppercase tracking-wider text-[#2F6772]">Perpustakaan belajar</span>
+    <h1 class="mt-3 text-3xl font-extrabold text-[#27153D]">Materi Pembelajaran</h1>
+    <p class="mt-1 text-[#5E4B73]">{{ $classroom->name }} · {{ $classroom->subject->name }}</p>
     <div class="mt-5 rounded-2xl bg-white/70 p-4 backdrop-blur">
-      <div class="mb-1.5 flex justify-between text-sm"><span class="font-semibold text-[#33406b]">Progres membaca</span><span class="text-[#5b5470]">{{ $done }}/{{ $total }} materi</span></div>
-      <div class="h-3 overflow-hidden rounded-full bg-[#e9e3ec]"><div class="h-3 rounded-full bg-gradient-to-r from-[#738fbd] via-[#cc8eb1] to-[#db88a4]" style="width: {{ $pct }}%"></div></div>
+      <div class="mb-1.5 flex justify-between text-sm"><span class="font-semibold text-[#27153D]">Progres membaca</span><span class="text-[#5E4B73]">{{ $done }}/{{ $total }} materi</span></div>
+      <div class="h-3 overflow-hidden rounded-full bg-[#FADADC]"><div class="h-3 rounded-full bg-gradient-to-r from-[#3E828E] via-[#A6C9B6] to-[#F6B6B7]" style="width: {{ $pct }}%"></div></div>
     </div>
   </div>
 </section>

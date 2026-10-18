@@ -7,9 +7,9 @@
   <label class="pill-wrap"><span class="pill-ico"><i data-lucide="lock" class="h-4 w-4"></i></span>
     <input type="password" name="password" class="pill-input" placeholder="Password" required></label>
   <div class="flex items-center justify-between gap-4 pt-1">
-    <label class="flex items-center gap-2 text-sm text-[#5f7cae]"><input type="checkbox" name="remember" value="1" class="h-4 w-4 rounded accent-[#738fbd]"> Ingat saya</label>
+    <label class="flex items-center gap-2 text-sm text-[#3E828E]"><input type="checkbox" name="remember" value="1" class="h-4 w-4 rounded accent-[#3E828E]"> Ingat saya</label>
     <button class="pill-btn">Masuk</button>
   </div>
 </form>
-<p class="mt-8 text-center text-sm text-slate-500">Belum punya akun? <a class="font-semibold text-[#5f7cae] hover:underline" href="{{ route('guru.register') }}">Daftar sebagai guru</a></p>
+<p class="mt-8 text-center text-sm text-slate-500">Belum punya akun? <a class="font-semibold text-[#3E828E] hover:underline" href="{{ route('guru.register') }}">Daftar sebagai guru</a></p>
 @endsection

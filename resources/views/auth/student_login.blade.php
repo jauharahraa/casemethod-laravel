@@ -6,7 +6,7 @@
   <label class="pill-wrap"><span class="pill-ico"><i data-lucide="user-round" class="h-4 w-4"></i></span>
     <input name="full_name" value="{{ old('full_name') }}" class="pill-input" placeholder="Nama lengkap" required autofocus></label>
   <label class="pill-wrap"><span class="pill-ico"><i data-lucide="school" class="h-4 w-4"></i></span>
-    <input name="class_name" value="{{ old('class_name') }}" class="pill-input" placeholder="Kelas (mis. XI IPS 1)" required></label>
+    <input name="class_name" value="{{ old('class_name') }}" class="pill-input" placeholder="Kelas (mis. X DKV 1)" required></label>
   <label class="pill-wrap"><span class="pill-ico"><i data-lucide="hash" class="h-4 w-4"></i></span>
     <input name="participant_number" value="{{ old('participant_number') }}" class="pill-input" placeholder="Nomor peserta" required></label>
   <label class="pill-wrap"><span class="pill-ico"><i data-lucide="key-round" class="h-4 w-4"></i></span>

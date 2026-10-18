@@ -12,5 +12,5 @@
     <input type="password" name="password_confirmation" class="pill-input" placeholder="Ulangi password" required></label>
   <div class="flex justify-end pt-1"><button class="pill-btn">Daftar</button></div>
 </form>
-<p class="mt-8 text-center text-sm text-slate-500">Sudah punya akun? <a class="font-semibold text-[#5f7cae] hover:underline" href="{{ route('guru.login') }}">Masuk</a></p>
+<p class="mt-8 text-center text-sm text-slate-500">Sudah punya akun? <a class="font-semibold text-[#3E828E] hover:underline" href="{{ route('guru.login') }}">Masuk</a></p>
 @endsection

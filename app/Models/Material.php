@@ -10,12 +10,12 @@ class Material extends Model
 {
     /** Tema warna sampul (kelas Tailwind lengkap agar terdeteksi). */
         const THEMES = [
-        'blue' => 'from-[#5f7cae] via-[#738fbd] to-[#a8c3d4]',
-        'indigo' => 'from-[#6f6a9a] via-[#8f87b3] to-[#b9b2cf]',
-        'emerald' => 'from-[#5d86a3] via-[#7fa3bb] to-[#a8c3d4]',
-        'amber' => 'from-[#c77f8f] via-[#e0a0a8] to-[#eec6c7]',
-        'rose' => 'from-[#c4708f] via-[#db88a4] to-[#eeaabd]',
-        'violet' => 'from-[#a8648f] via-[#cc8eb1] to-[#e0b4cf]',
+        'blue' => 'from-[#2F6772] via-[#3E828E] to-[#A6C9B6]',
+        'indigo' => 'from-[#27153D] via-[#4A3068] to-[#3E828E]',
+        'emerald' => 'from-[#3E828E] via-[#6FA28C] to-[#A6C9B6]',
+        'amber' => 'from-[#E27A7D] via-[#F6B6B7] to-[#FFEBED]',
+        'rose' => 'from-[#27153D] via-[#B5686F] to-[#F6B6B7]',
+        'violet' => 'from-[#4A3068] via-[#8F6FA3] to-[#F6B6B7]',
     ];
 
     const ICONS = ['book-open', 'lightbulb', 'flask-conical', 'calculator', 'globe', 'landmark', 'cpu', 'leaf', 'briefcase', 'scale', 'heart-pulse', 'palette'];

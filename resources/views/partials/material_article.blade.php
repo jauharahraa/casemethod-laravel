@@ -35,29 +35,29 @@
 </div>
 
 <style>
-.materi-body{font-size:1.02rem;line-height:1.8;color:#334155;overflow-wrap:anywhere}
-.materi-body h1,.materi-body h2,.materi-body h3{color:#0b2a5b;font-weight:800;line-height:1.3;scroll-margin-top:1rem}
+.materi-body{font-size:1.02rem;line-height:1.8;color:#4A3A5E;overflow-wrap:anywhere}
+.materi-body h1,.materi-body h2,.materi-body h3{color:#27153D;font-weight:800;line-height:1.3;scroll-margin-top:1rem}
 .materi-body h1{font-size:1.75rem;margin:1.6em 0 .6em}
-.materi-body h2{font-size:1.4rem;margin:1.8em 0 .6em;padding-left:.75rem;border-left:5px solid #2563eb}
+.materi-body h2{font-size:1.4rem;margin:1.8em 0 .6em;padding-left:.75rem;border-left:5px solid #3E828E}
 .materi-body h3{font-size:1.15rem;margin:1.4em 0 .5em}
 .materi-body h1:first-child,.materi-body h2:first-child,.materi-body h3:first-child{margin-top:0}
 .materi-body p{margin:.9em 0}
-.materi-body a{color:#2563eb;text-decoration:underline}
+.materi-body a{color:#3E828E;text-decoration:underline}
 .materi-body ul,.materi-body ol{margin:.9em 0;padding-left:1.5rem}
 .materi-body ul{list-style:disc}.materi-body ol{list-style:decimal}
 .materi-body li{margin:.3em 0}
-.materi-body li::marker{color:#2563eb;font-weight:700}
-.materi-body blockquote{margin:1.2em 0;padding:.9rem 1.1rem;border-left:5px solid #f59e0b;background:#fffbeb;border-radius:0 .75rem .75rem 0;color:#78350f}
+.materi-body li::marker{color:#3E828E;font-weight:700}
+.materi-body blockquote{margin:1.2em 0;padding:.9rem 1.1rem;border-left:5px solid #F6B6B7;background:#FFEBED;border-radius:0 .75rem .75rem 0;color:#27153D}
 .materi-body blockquote p{margin:.3em 0}
-.materi-body code{background:#eff6ff;color:#1d4ed8;padding:.15em .4em;border-radius:.4rem;font-size:.9em}
-.materi-body pre{background:#0f172a;color:#e2e8f0;padding:1rem;border-radius:.9rem;overflow-x:auto;margin:1.2em 0}
+.materi-body code{background:#E4F1EA;color:#2F6772;padding:.15em .4em;border-radius:.4rem;font-size:.9em}
+.materi-body pre{background:#27153D;color:#F3D6D8;padding:1rem;border-radius:.9rem;overflow-x:auto;margin:1.2em 0}
 .materi-body pre code{background:none;color:inherit;padding:0}
 .materi-body img{max-width:100%;height:auto;border-radius:1rem;margin:1.2em auto;box-shadow:0 4px 14px rgba(15,23,42,.12)}
-.materi-body hr{border:0;height:2px;background:linear-gradient(90deg,#2563eb,transparent);margin:2em 0}
+.materi-body hr{border:0;height:2px;background:linear-gradient(90deg,#3E828E,transparent);margin:2em 0}
 .materi-body table{display:block;overflow-x:auto;width:100%;border-collapse:collapse;margin:1.2em 0;font-size:.95rem}
-.materi-body th{background:#0b2a5b;color:#fff;text-align:left;padding:.6rem .8rem}
-.materi-body td{padding:.6rem .8rem;border-bottom:1px solid #e2e8f0}
-.materi-body tr:nth-child(even) td{background:#f8fafc}
+.materi-body th{background:#27153D;color:#fff;text-align:left;padding:.6rem .8rem}
+.materi-body td{padding:.6rem .8rem;border-bottom:1px solid #F3D6D8}
+.materi-body tr:nth-child(even) td{background:#FFF5F6}
 </style>
 <script>
 (function () {
