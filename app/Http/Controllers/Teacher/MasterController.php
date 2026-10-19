@@ -7,7 +7,9 @@ use App\Models\AuditLog;
 use App\Models\Classroom;
 use App\Models\Student;
 use App\Models\Subject;
+use App\Models\Submission;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 
 class MasterController extends Controller
@@ -16,6 +18,20 @@ class MasterController extends Controller
     {
         abort_unless($model->user_id === auth()->id(), 404);
         return $model;
+    }
+
+    /**
+     * Menghapus satu kelas beserta isinya dengan urutan yang aman terhadap foreign key:
+     * pengumpulan (submissions) dulu, baru kasus (yang ikut menghapus versi rubrik), lalu kelas.
+     * Siswa tidak dihapus, hanya dilepas dari kelas.
+     */
+    private function purgeClassroom(Classroom $classroom): void
+    {
+        $caseIds = $classroom->cases()->pluck('id');
+        Submission::whereIn('case_id', $caseIds)->delete();
+        $classroom->students()->detach();
+        $classroom->cases()->delete();
+        $classroom->delete();
     }
 
     // ---- Mata pelajaran
@@ -40,8 +56,17 @@ class MasterController extends Controller
 
     public function subjectDestroy(Subject $subject)
     {
-        $this->mine($subject)->delete();
-        AuditLog::record('subject.delete', "Menghapus mata pelajaran {$subject->name}");
+        $this->mine($subject);
+        $name = $subject->name;
+
+        DB::transaction(function () use ($subject) {
+            foreach ($subject->classrooms()->get() as $classroom) {
+                $this->purgeClassroom($classroom);
+            }
+            $subject->delete();
+        });
+
+        AuditLog::record('subject.delete', "Menghapus mata pelajaran {$name}");
         return back()->with('ok', 'Mata pelajaran beserta kelas dan kasusnya dihapus.');
     }
 
@@ -71,37 +96,45 @@ class MasterController extends Controller
 
     public function classroomDestroy(Classroom $classroom)
     {
-        $this->mine($classroom)->delete();
-        AuditLog::record('classroom.delete', "Menghapus kelas {$classroom->name}");
+        $classroom = $this->mine($classroom);
+        $name = $classroom->name;
+
+        DB::transaction(fn () => $this->purgeClassroom($classroom));
+
+        AuditLog::record('classroom.delete', "Menghapus kelas {$name}");
         return redirect()->route('guru.classrooms')->with('ok', 'Kelas dihapus.');
     }
 
     // ---- Siswa
     private function addStudent(Classroom $classroom, string $name, string $number): ?string
     {
-        $name = trim($name);
+        // Rapikan spasi agar cocok dengan pencocokan nama saat siswa login
+        $name = trim(preg_replace('/\s+/u', ' ', $name));
         $number = trim($number);
         if ($name === '' || $number === '') return 'Nama dan nomor absen wajib diisi.';
         if (mb_strlen($name) > 150 || mb_strlen($number) > 50) return "Data terlalu panjang: $name";
 
-        // Cek apakah kombinasi (nomor absen + nama + guru ini) sudah persis ada
+        // Di dalam SATU kelas, satu nomor hanya boleh dipakai satu nama.
+        // (Nomor yang sama boleh dipakai di kelas atau guru lain.)
+        $clash = $classroom->students()
+            ->where('participant_number', $number)
+            ->where('full_name', '!=', $name)
+            ->first();
+        if ($clash) {
+            return "Nomor $number sudah dipakai {$clash->full_name} di kelas ini.";
+        }
+
+        // Pakai data siswa milik guru ini bila nama dan nomornya persis sama, jika belum ada buat baru.
         $student = Student::where('user_id', auth()->id())
             ->where('participant_number', $number)
             ->where('full_name', $name)
-            ->first();
-
-        // Jika belum ada siswa dengan nama dan nomor persis itu, buat data baru.
-        // Karena batasan unique global di database sudah dihapus, nomor absen yang sama 
-        // sekarang bebas digunakan untuk nama atau kelas yang berbeda!
-        if (!$student) {
-            $student = Student::create([
-                'user_id' => auth()->id(), 
-                'full_name' => $name, 
-                'participant_number' => $number
+            ->first()
+            ?? Student::create([
+                'user_id' => auth()->id(),
+                'full_name' => $name,
+                'participant_number' => $number,
             ]);
-        }
 
-        // Hubungkan siswa ke kelas
         $classroom->students()->syncWithoutDetaching([$student->id]);
         return null;
     }
@@ -132,7 +165,9 @@ class MasterController extends Controller
 
     public function studentRemove(Classroom $classroom, Student $student)
     {
-        $this->mine($classroom)->students()->detach($student->id);
+        $this->mine($classroom);
+        $this->mine($student);
+        $classroom->students()->detach($student->id);
         return back()->with('ok', 'Siswa dikeluarkan dari kelas.');
     }
 }

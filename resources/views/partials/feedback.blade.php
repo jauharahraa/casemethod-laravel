@@ -29,7 +29,9 @@
         @if($a)
           <div class="rounded-xl border border-slate-200 p-3">
             <div class="mb-1 flex items-center justify-between gap-2">
-              <h5 class="text-sm font-bold text-blue-900">{{ $label }}</h5>
+              <h5 class="text-sm font-bold text-blue-900">{{ $label }}
+                @if(!empty($a['status']))<span class="ml-1 text-xs font-semibold text-slate-500">· {{ $a['status'] }}</span>@endif
+              </h5>
               <span class="badge {{ $badge($score, $max) }}">Skor {{ $score }}/{{ $max }}</span>
             </div>
             @if(!empty($a['reason']))<p class="text-sm text-slate-700"><b>Alasan:</b> {{ $a['reason'] }}</p>@endif
@@ -47,17 +49,6 @@
       @if(!empty($c['conclusion']))
         <div class="rounded-xl border border-slate-200 p-3"><h5 class="mb-1 flex items-center gap-2 text-sm font-bold text-blue-900"><i data-lucide="message-square-text" class="h-4 w-4"></i>Kesimpulan</h5><p class="text-sm text-slate-700">{{ $c['conclusion'] }}</p></div>
       @endif
-      @foreach(['suggestions','guiding_questions'] as $k)
-        @php 
-          $legacyInfo = collect($legacy)->firstWhere('key', $k);
-        @endphp
-        @if(!empty($c[$k]) && $legacyInfo)
-          <div class="rounded-xl border border-slate-200 p-3">
-            <h5 class="mb-1 flex items-center gap-2 text-sm font-bold {{ $legacyInfo['color'] }}"><i data-lucide="{{ $legacyInfo['icon'] }}" class="h-4 w-4"></i>{{ $legacyInfo['title'] }}</h5>
-            <ul class="list-disc space-y-1 pl-5 text-sm text-slate-700">@foreach($c[$k] as $item)<li>{{ $item }}</li>@endforeach</ul>
-          </div>
-        @endif
-      @endforeach
     @else
       @foreach($legacy as $itemInfo)
         @php $key = $itemInfo['key']; @endphp

@@ -52,8 +52,10 @@ class AuthController extends Controller
         $norm = fn ($s) => mb_strtolower(trim(preg_replace('/\s+/', ' ', $s)));
 
         $classroom = Classroom::where('code', strtoupper(trim($d['class_code'])))->first();
-        $student = $classroom?->students()->where('participant_number', trim($d['participant_number']))->first();
-
+        $student = $classroom?->students()
+            ->where('participant_number', trim($d['participant_number']))
+            ->get()
+            ->first(fn ($s) => $norm($s->full_name) === $norm($d['full_name']));
         $ok = $classroom && $student
             && $norm($student->full_name) === $norm($d['full_name'])
             && $norm($classroom->name) === $norm($d['class_name']);
