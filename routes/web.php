@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Student\MaterialController as StudentMaterialController;
+use App\Http\Controllers\Teacher\GradeExportController;
 use App\Http\Controllers\Teacher\MaterialController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Student\StudentController;
@@ -65,6 +66,7 @@ Route::middleware('auth')->prefix('guru')->name('guru.')->group(function () {
 
     Route::get('rekap', [GradeController::class, 'recap'])->name('recap');
     Route::get('rekap/ekspor', [GradeController::class, 'export'])->name('recap.export');
+    Route::get('ekspor-nilai', GradeExportController::class)->name('export.grades');
 });
 
 Route::middleware('student')->prefix('siswa')->name('siswa.')->group(function () {

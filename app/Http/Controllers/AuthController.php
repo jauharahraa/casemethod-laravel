@@ -20,7 +20,7 @@ class AuthController extends Controller
         $user = User::create($data);
         Auth::login($user);
         $r->session()->regenerate();
-        return redirect()->route('guru.dashboard')->with('ok', 'Akun guru berhasil dibuat. Mulailah dengan menambah mata pelajaran.');
+        return redirect()->route('guru.dashboard')->with('ok', 'Akun guru berhasil dibuat. Mulailah dengan menambah materi.');
     }
 
     public function login(Request $r)

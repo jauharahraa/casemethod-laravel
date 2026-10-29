@@ -6,10 +6,10 @@
   <form method="POST" action="{{ route('guru.classrooms.store') }}" class="card space-y-3">@csrf
     <h2 class="font-bold">Buat kelas</h2>
     @if($subjects->isEmpty())
-      <p class="text-sm text-amber-700">Tambahkan <a class="underline" href="{{ route('guru.subjects') }}">mata pelajaran</a> terlebih dahulu.</p>
+      <p class="text-sm text-amber-700">Tambahkan <a class="underline" href="{{ route('guru.subjects') }}">materi</a> terlebih dahulu.</p>
     @else
       <div><label class="label">Nama kelas</label><input name="name" class="input" placeholder="mis. XI TKJ 1" required></div>
-      <div><label class="label">Mata pelajaran</label><select name="subject_id" class="input" required>@foreach($subjects as $s)<option value="{{ $s->id }}">{{ $s->name }}</option>@endforeach</select></div>
+      <div><label class="label">Materi</label><select name="subject_id" class="input" required>@foreach($subjects as $s)<option value="{{ $s->id }}">{{ $s->name }}</option>@endforeach</select></div>
       <button class="btn btn-primary w-full"><i data-lucide="plus" class="h-4 w-4"></i> Buat kelas</button>
     @endif
   </form>

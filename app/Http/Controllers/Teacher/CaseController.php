@@ -128,8 +128,17 @@ class CaseController extends Controller
 
     public function destroy(CaseStudy $kasus)
     {
-        $this->mine($kasus)->delete();
-        AuditLog::record('case.delete', "Menghapus kasus \"{$kasus->title}\"");
+        $this->mine($kasus);
+        $title = $kasus->title;
+
+        DB::transaction(function () use ($kasus) {
+            // Hapus pengumpulan dulu (ikut menghapus versi jawaban, feedback AI, dan nilai),
+            // baru kasusnya (ikut menghapus versi rubrik).
+            \App\Models\Submission::where('case_id', $kasus->id)->delete();
+            $kasus->delete();
+        });
+
+        AuditLog::record('case.delete', "Menghapus kasus \"{$title}\"");
         return back()->with('ok', 'Kasus dihapus.');
     }
 }

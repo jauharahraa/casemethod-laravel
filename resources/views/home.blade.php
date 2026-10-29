@@ -226,7 +226,7 @@ tailwind.config = { theme: { extend: {
   </div>
   <div class="mt-10 grid gap-6 md:grid-cols-2">
     @foreach([
-      ['Untuk guru', 'presentation', 'from-[#A6C9B6]/70 to-[#FFEBED]', ['Buat mata pelajaran dan kelas', 'Tambah siswa, bagikan kode kelas', 'Buat materi dan kasus dengan rubrik', 'Nilai jawaban, lalu publikasikan nilai']],
+      ['Untuk guru', 'presentation', 'from-[#A6C9B6]/70 to-[#FFEBED]', ['Buat materi  dan kelas', 'Tambah siswa, bagikan kode kelas', 'Buat materi dan kasus dengan rubrik', 'Nilai jawaban, lalu publikasikan nilai']],
       ['Untuk siswa', 'user-round', 'from-[#F6B6B7] to-[#FFEBED]', ['Masuk dengan kode kelas', 'Baca materi pembelajaran', 'Kerjakan kasus, kirim jawaban', 'Baca feedback AI, revisi sekali, lihat nilai']],
     ] as [$who, $icon, $grad, $steps])
       <div class="rounded-3xl bg-gradient-to-br {{ $grad }} p-7">

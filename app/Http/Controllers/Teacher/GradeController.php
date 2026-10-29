@@ -149,7 +149,7 @@ class GradeController extends Controller
             fwrite($out, "\xEF\xBB\xBF"); // BOM agar Excel membaca UTF-8 dengan benar
             
             // Menggunakan pemisah titik koma (;) agar otomatis rapi di Excel Indonesia
-            fputcsv($out, ['Kelas', 'Mata Pelajaran', 'Kasus', 'Nama Siswa', 'Nomor Peserta', 'Status', 'Nilai Akhir', 'Nilai Dipublikasikan'], ';');
+            fputcsv($out, ['Kelas', 'Materi', 'Kasus', 'Nama Siswa', 'Nomor Peserta', 'Status', 'Nilai Akhir', 'Nilai Dipublikasikan'], ';');
             foreach ($rows as $x) {
                 fputcsv($out, array_map($safe, [
                     $x['class'], $x['subject'], $x['case'], $x['student'], $x['number'],

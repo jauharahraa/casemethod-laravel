@@ -3,7 +3,7 @@
 @section('content')
 @php
   $tiles = [
-    ['Mata pelajaran', $stats['subjects'], 'book-open', 'guru.subjects', '#DCEBE2', '#2F6772'],
+    ['Materi', $stats['subjects'], 'book-open', 'guru.subjects', '#DCEBE2', '#2F6772'],
     ['Kelas', $stats['classrooms'], 'users', 'guru.classrooms', '#FBD9DA', '#27153D'],
     ['Siswa', $stats['students'], 'user-round', 'guru.classrooms', '#CFE3D8', '#5E4B73'],
     ['Kasus', $stats['cases'], 'file-text', 'guru.cases', '#FFE0E1', '#27153D'],
@@ -46,6 +46,11 @@
   </a>
 </div>
 
+{{-- Kartu Export Nilai Case Method --}}
+<div class="mt-6">
+  @include('teacher.partials.export_grades_card')
+</div>
+
 <div class="mt-8 grid gap-6 lg:grid-cols-5">
   {{-- Kasus terbaru --}}
   <section class="card lg:col-span-3">
@@ -63,7 +68,7 @@
         <span class="badge {{ $c->isPublished() ? 'bg-emerald-100 text-emerald-700' : 'bg-slate-100 text-slate-600' }}">{{ $c->isPublished() ? 'Terpublikasi' : 'Draft' }}</span>
       </div>
     @empty
-      <p class="rounded-2xl bg-[#FFF5F6] p-4 text-sm text-[#8B7C9B]">Belum ada kasus. Mulai dengan menambah mata pelajaran, lalu kelas, lalu kasus.</p>
+      <p class="rounded-2xl bg-[#FFF5F6] p-4 text-sm text-[#8B7C9B]">Belum ada kasus. Mulai dengan menambah materi, lalu kelas, lalu kasus.</p>
     @endforelse
   </section>
 

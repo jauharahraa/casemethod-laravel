@@ -34,7 +34,7 @@ class MasterController extends Controller
         $classroom->delete();
     }
 
-    // ---- Mata pelajaran
+    // ---- Materi
     public function subjects()
     {
         $subjects = Subject::where('user_id', auth()->id())->withCount('classrooms')->orderBy('name')->get();
@@ -45,13 +45,13 @@ class MasterController extends Controller
     {
         $d = $r->validate(['name' => 'required|string|max:100', 'description' => 'nullable|string|max:500']);
         Subject::create($d + ['user_id' => auth()->id()]);
-        return back()->with('ok', 'Mata pelajaran ditambahkan.');
+        return back()->with('ok', 'Materi ditambahkan.');
     }
 
     public function subjectUpdate(Request $r, Subject $subject)
     {
         $this->mine($subject)->update($r->validate(['name' => 'required|string|max:100', 'description' => 'nullable|string|max:500']));
-        return back()->with('ok', 'Mata pelajaran diperbarui.');
+        return back()->with('ok', 'Materi diperbarui.');
     }
 
     public function subjectDestroy(Subject $subject)
@@ -66,8 +66,8 @@ class MasterController extends Controller
             $subject->delete();
         });
 
-        AuditLog::record('subject.delete', "Menghapus mata pelajaran {$name}");
-        return back()->with('ok', 'Mata pelajaran beserta kelas dan kasusnya dihapus.');
+        AuditLog::record('subject.delete', "Menghapus materi {$name}");
+        return back()->with('ok', 'Materi beserta kelas dan kasusnya dihapus.');
     }
 
     // ---- Kelas

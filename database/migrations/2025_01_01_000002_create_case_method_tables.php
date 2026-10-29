@@ -61,11 +61,11 @@ return new class extends Migration {
             $t->unique(['case_id', 'version']);
         });
 
-       Schema::create('submissions', function (Blueprint $t) {
+        Schema::create('submissions', function (Blueprint $t) {
             $t->id();
             $t->foreignId('case_id')->constrained('cases')->cascadeOnDelete();
             $t->foreignId('student_id')->constrained()->cascadeOnDelete();
-            $t->foreignId('rubric_version_id')->constrained('rubric_versions')->cascadeOnDelete();
+            $t->foreignId('rubric_version_id')->constrained('rubric_versions');
             $t->string('status', 20)->default('draft'); // draft, feedback, revising, locked
             $t->dateTime('submitted_at')->nullable();
             $t->dateTime('locked_at')->nullable();
